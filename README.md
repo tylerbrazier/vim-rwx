@@ -1,4 +1,4 @@
-# vim-fs
+# vim-rwx
 
 Simple netrw replacement
 

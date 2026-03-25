@@ -1,9 +1,9 @@
-if exists("g:loaded_fs") || &cp
+if exists("g:loaded_rwx") || &cp
 	finish
 endif
-let g:loaded_fs = 1
+let g:loaded_rwx = 1
 
-augroup fs
+augroup rwx
 	autocmd!
 	" disable netrw when editing a dir
 	autocmd VimEnter * autocmd! FileExplorer
