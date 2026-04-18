@@ -20,9 +20,6 @@ function s:ls()
 	" use filetype=netrw for the syntax highlighting
 	setl filetype=netrw buftype=nofile
 
-	" clear any lines first in case files have changed
-	call deletebufline('', 1, '$')
-
 	call setline(1, s:mkentry(d, '..'))
 	call foreach(readdir(d), {i,f -> setline(i+2, s:mkentry(d, f))})
 
