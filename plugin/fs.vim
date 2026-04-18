@@ -25,6 +25,12 @@ function s:ls()
 
 	call setline(1, s:mkentry(d, '..'))
 	call foreach(readdir(d), {i,f -> setline(i+2, s:mkentry(d, f))})
+
+	nnoremap <buffer> <expr> rm join([':RWX! rm -r', getline('.')])
+	nnoremap <buffer> <expr> mv join([':RWX! mv', getline('.'), getline('.')])
+	nnoremap <buffer> <expr> cp join([':RWX cp -r', getline('.'), getline('.')])
+	exe 'nnoremap <buffer> cd :lcd' fnamemodify(d, ':~') '<CR>'
+	exe 'nnoremap <buffer> mk :RWX mkdir' fnamemodify(d, ':~')
 endfunction
 
 function s:mkentry(d, f)
@@ -34,3 +40,18 @@ function s:mkentry(d, f)
 	endif
 	return fnamemodify(path, ':~')
 endfunction
+
+function s:bd(args) abort
+	let bufnrs = split(a:args)
+			\->filter('!empty(v:val)')
+			\->map('bufnr(fnamemodify(v:val, ":p"))')
+			\->filter('v:val != -1')
+	if !empty(bufnrs)
+		 exe 'bd' join(bufnrs)
+	endif
+endfunction
+
+command -nargs=+ -bang -complete=file RWX
+			\ if !empty('<bang>') | call <SID>bd(<q-args>) | endif
+			\|exe '!'..<q-args>
+			\|edit
