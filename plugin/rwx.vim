@@ -42,7 +42,7 @@ function s:bd(args) abort
 	let bufnrs = split(a:args)
 			\->filter('!empty(v:val)')
 			\->map('bufnr(fnamemodify(v:val, ":p"))')
-			\->filter('v:val != -1')
+			\->filter('bufloaded(v:val)')
 	if !empty(bufnrs)
 		 exe 'bd' join(bufnrs)
 	endif
